@@ -27,6 +27,14 @@ npm run worker              # 3. the worker that runs the workflow and activitie
 npm start                   # 4. start a report (optional id: npm start -- report-42)
 ```
 
+### Optional: control panel
+
+```bash
+npm run panel               # http://localhost:3000
+```
+
+A small web page with buttons to start a report (with or without approval), break or fix each mock API endpoint, and approve reports that are waiting. It also lists recent runs with a link to each one in the Web UI. It uses a Temporal Query (`waitingForApproval`) to know when to show the Approve button.
+
 ## Demo script
 
 ### 1. A flaky service
@@ -75,3 +83,4 @@ npm run approve -- report-42
 - `src/client.ts`: starts a report
 - `src/approve.ts`: sends the approval signal
 - `src/mock-api.ts`: the local mock API with the chaos switches
+- `src/panel.ts`: the optional control panel

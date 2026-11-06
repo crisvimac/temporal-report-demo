@@ -8,6 +8,7 @@
     "worker": "ts-node src/worker.ts",
     "start": "ts-node src/client.ts",
     "approve": "ts-node src/approve.ts",
+    "panel": "ts-node src/panel.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

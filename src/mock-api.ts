@@ -30,6 +30,12 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (req.method === 'GET' && url === '/state') {
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify({ broken: [...broken] }));
+    return;
+  }
+
   const name = url.slice(1);
   if (req.method === 'GET' && sections[name]) {
     if (broken.has(name)) {

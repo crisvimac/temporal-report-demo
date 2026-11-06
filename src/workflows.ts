@@ -1,4 +1,4 @@
-import { condition, defineSignal, proxyActivities, setHandler } from '@temporalio/workflow';
+import { condition, defineQuery, defineSignal, proxyActivities, setHandler } from '@temporalio/workflow';
 import type * as activities from './activities';
 
 const { fetchSales, fetchSupport, fetchEngineering, aiSummarize, writeReport } = proxyActivities<typeof activities>({
@@ -13,12 +13,16 @@ const { fetchSales, fetchSupport, fetchEngineering, aiSummarize, writeReport } =
 });
 
 export const approveSignal = defineSignal('approve');
+// Used by the demo panel to know when to show the Approve button.
+export const waitingForApprovalQuery = defineQuery<boolean>('waitingForApproval');
 
 export async function reportWorkflow(id: string, requireApproval = false): Promise<string> {
   let approved = false;
+  let waiting = false;
   setHandler(approveSignal, () => {
     approved = true;
   });
+  setHandler(waitingForApprovalQuery, () => waiting);
 
   const sections: string[] = [];
   sections.push(await fetchSales());
@@ -29,7 +33,9 @@ export async function reportWorkflow(id: string, requireApproval = false): Promi
 
   if (requireApproval) {
     // Waits for the "approve" signal: seconds or weeks, holding no thread.
+    waiting = true;
     await condition(() => approved);
+    waiting = false;
   }
 
   return await writeReport(id, summary, sections);
