@@ -1,0 +1,24 @@
+{
+  "name": "temporal-report-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Live demo of Temporal durable execution: a weekly report built in several steps that survives a flaky API and a crashed worker.",
+  "scripts": {
+    "api": "ts-node src/mock-api.ts",
+    "worker": "ts-node src/worker.ts",
+    "start": "ts-node src/client.ts",
+    "approve": "ts-node src/approve.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@temporalio/activity": "^1.11.0",
+    "@temporalio/client": "^1.11.0",
+    "@temporalio/worker": "^1.11.0",
+    "@temporalio/workflow": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.0"
+  }
+}
